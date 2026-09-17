@@ -19,7 +19,13 @@ interface Droplet {
   amount: string;
   labelOpacity: number;
   squash: number; // impact squash, decays after landing
+  pulsePhase: number; // random offset so paid nodes don't breathe in lockstep
 }
+
+// Once a droplet lands it never goes fully dark again — it settles to this
+// baseline glow instead of fading to zero, so a paid wallet stays visibly
+// "lit" for as long as the vault view is open, not just for a few seconds.
+const RESTING_GLOW = 0.42;
 
 const SOURCE_Y = 40;
 
@@ -66,6 +72,7 @@ export function DripCanvas({ event }: { event: DripEvent[] | null }) {
       const rect = blobCanvas.getBoundingClientRect();
       const w = rect.width;
       const h = rect.height;
+      const now = performance.now();
       bctx.clearRect(0, 0, w, h);
       octx.clearRect(0, 0, w, h);
 
@@ -116,8 +123,11 @@ export function DripCanvas({ event }: { event: DripEvent[] | null }) {
             d.squash = 1;
           }
         } else {
-          // Impact splash: a squashed puddle blob that settles fast,
-          // plus the crisp ripple ring + fading amount label on top.
+          // Impact splash: a squashed puddle blob that settles fast. The
+          // ring + label used to fade all the way to nothing afterward —
+          // now they settle to RESTING_GLOW instead, and a slow breathing
+          // pulse (unique phase per wallet, so nine holders don't glow in
+          // unison) keeps the whole thing feeling alive rather than static.
           d.squash *= 0.88;
           if (d.squash > 0.02) {
             bctx.save();
@@ -130,30 +140,63 @@ export function DripCanvas({ event }: { event: DripEvent[] | null }) {
             bctx.restore();
           }
 
+          d.labelOpacity = Math.max(RESTING_GLOW, d.labelOpacity - 0.004);
+          const pulse = (Math.sin(now * 0.0016 + d.pulsePhase) + 1) / 2; // 0..1, ~4s period
+
+          // A perpetual sonar ping expanding out from the wallet — driven
+          // by wall-clock time (not labelOpacity), so unlike the old ring
+          // it never stops once things settle.
+          const rippleCycle = 2600;
+          const rippleT = ((now + d.pulsePhase * 900) % rippleCycle) / rippleCycle;
           octx.beginPath();
-          octx.strokeStyle = `rgba(45, 212, 191, ${d.labelOpacity})`;
-          octx.lineWidth = 2;
-          octx.arc(d.targetX, d.targetY, 14 * (1.2 - d.labelOpacity) + 6, 0, Math.PI * 2);
+          octx.strokeStyle = `rgba(45, 212, 191, ${(1 - rippleT) * 0.5})`;
+          octx.lineWidth = 1.5;
+          octx.arc(d.targetX, d.targetY, 10 + rippleT * 24, 0, Math.PI * 2);
           octx.stroke();
 
-          octx.fillStyle = `rgba(94, 234, 212, ${d.labelOpacity})`;
+          // A tighter, steadier ring right on the node that breathes with
+          // the pulse instead of only ever shrinking.
+          octx.beginPath();
+          octx.strokeStyle = `rgba(45, 212, 191, ${d.labelOpacity * (0.7 + pulse * 0.3)})`;
+          octx.lineWidth = 2;
+          octx.arc(d.targetX, d.targetY, 16 + pulse * 2, 0, Math.PI * 2);
+          octx.stroke();
+
+          const textOpacity = d.labelOpacity * (0.75 + pulse * 0.25);
+          octx.fillStyle = `rgba(94, 234, 212, ${textOpacity})`;
           octx.font = "bold 13px ui-monospace, monospace";
           octx.fillText(`+$${d.amount}`, d.targetX, d.targetY - 22);
           octx.font = "10px ui-monospace, monospace";
-          octx.fillStyle = `rgba(148, 163, 184, ${d.labelOpacity})`;
+          octx.fillStyle = `rgba(148, 163, 184, ${textOpacity})`;
           octx.fillText(d.label, d.targetX, d.targetY + 30);
-
-          d.labelOpacity = Math.max(0, d.labelOpacity - 0.004);
         }
 
-        // Wallet node (crisp, overlay layer, always drawn)
-        octx.beginPath();
-        octx.fillStyle = "#1e293b";
-        octx.strokeStyle = "#334155";
-        octx.lineWidth = 1.5;
-        octx.arc(d.targetX, d.targetY, 14, 0, Math.PI * 2);
-        octx.fill();
-        octx.stroke();
+        // Wallet node (crisp, overlay layer, always drawn). A landed
+        // (paid) wallet gets a permanent teal-glow treatment instead of
+        // the plain slate circle, so at a glance every node on screen
+        // reads as "this one got paid" — a lit ledger, not a blank dot.
+        if (d.landed) {
+          const pulse = (Math.sin(now * 0.0016 + d.pulsePhase) + 1) / 2;
+          octx.save();
+          octx.shadowColor = "rgba(45, 212, 191, 0.65)";
+          octx.shadowBlur = 8 + pulse * 8;
+          octx.beginPath();
+          octx.fillStyle = "#0c2b28";
+          octx.strokeStyle = `rgba(45, 212, 191, ${0.55 + pulse * 0.35})`;
+          octx.lineWidth = 1.5;
+          octx.arc(d.targetX, d.targetY, 14, 0, Math.PI * 2);
+          octx.fill();
+          octx.stroke();
+          octx.restore();
+        } else {
+          octx.beginPath();
+          octx.fillStyle = "#1e293b";
+          octx.strokeStyle = "#334155";
+          octx.lineWidth = 1.5;
+          octx.arc(d.targetX, d.targetY, 14, 0, Math.PI * 2);
+          octx.fill();
+          octx.stroke();
+        }
       }
 
       rafRef.current = requestAnimationFrame(render);
@@ -189,6 +232,7 @@ export function DripCanvas({ event }: { event: DripEvent[] | null }) {
       amount: e.amount,
       labelOpacity: 0,
       squash: 0,
+      pulsePhase: Math.random() * Math.PI * 2,
     }));
     dropletsRef.current = newDroplets;
   }, [event]);
