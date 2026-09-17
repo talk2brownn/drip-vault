@@ -1,0 +1,13 @@
+{
+  "cluster": "https://api.devnet.solana.com",
+  "programId": "H6nQUX5QaS9BwGo9aUhip1Vtrpzx9wx2d7Wwhjqw3nK2",
+  "authority": "5XWS7jqgs4Sew1kxAd51N6RwV7Vt5oGFHnb3G9AbBMxS",
+  "ticker": "AAPLx",
+  "underlyingMint": "EFoBvYYg2Y3XK565ukRwzj6atVAHTbEa8V5nXRiuL19z",
+  "dividendMint": "HbDNmfE7QYTsgvtuiQ3h3kFMVpivVTV6mHdfG4dj3kTB",
+  "vault": "BTHfgtjZfKJ1uX1pTEkDrKzv8dkDZ75wFpHFHAzoe8vF",
+  "receiptMint": "4Xra7w8spVjUVihS4YK2jUBRdzNsPgNuzbhCUAk5koY8",
+  "vaultTokenAccount": "EDxhUjq5uDe1MvFXV4ynx3rR8AZJyzx83KBsZ9s17HeR",
+  "dividendPool": "ACwcgy1kR7kNnWnzPhCuczNKKBsnAhj1B1eJou3qx84J",
+  "initTx": "2obdwsCD3DYUjYZ7hHWKDCfJN77brPQEZCiXYL87dDN9PTuAqmfFVTw2FqNANPhnHoQD81QPzgksHTDtpTvHfqYz"
+}

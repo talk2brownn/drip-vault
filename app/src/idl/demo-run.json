@@ -1,0 +1,12 @@
+{
+  "cluster": "https://api.devnet.solana.com",
+  "vault": "BTHfgtjZfKJ1uX1pTEkDrKzv8dkDZ75wFpHFHAzoe8vF",
+  "holderA": "LxewUiMsB9bBJZdse1C677HAVU96Q4B1TZgBd6YeKJF",
+  "holderB": "BV6XvVSZ49PCvrubpWKGpnpdDiZ2kRAJkUfKqNcVd3Rn",
+  "depositTxA": "see logs above",
+  "fundTx": "2Dr82LcHZYuojpwnC6s3JN3DNR72wP9raqyMtyFeMyT6bLMAFC44DAavA4MjGxBMRiWVW4HDqNpdxxS1xvot9L7K",
+  "distributeTx": "4UwdtJfkTiRGkVPnkQA1NDqL9RVGb6EoCYXfuTG7b4FmbFQuRjvG7bpxcqsmZAUPusuC1JGnmqjvHLyf2zPL7evk",
+  "totalHoldersPaid": 8,
+  "holderAPayout": 54,
+  "holderBPayout": 162
+}

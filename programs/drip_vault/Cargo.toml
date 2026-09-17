@@ -1,0 +1,29 @@
+[package]
+name = "drip_vault"
+version = "0.1.0"
+description = "Created with Anchor"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+name = "drip_vault"
+
+[features]
+default = []
+cpi = ["no-entrypoint"]
+no-entrypoint = []
+no-idl = []
+no-log-ix-name = []
+idl-build = ["anchor-lang/idl-build", "anchor-spl/idl-build"]
+
+
+[dependencies]
+anchor-lang = { version = "=0.31.1", features = ["init-if-needed"] }
+anchor-spl = "=0.31.1"
+blake3 = "=1.5.5"
+indexmap = "=2.6.0"
+zeroize = "=1.7.0"
+zeroize_derive = "=1.4.2"
+proc-macro-crate = "=3.1.0"
+unicode-segmentation = "=1.10.1"
+
