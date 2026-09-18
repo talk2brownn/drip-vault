@@ -79,33 +79,45 @@ export function Landing({ onStart }: { onStart: () => void }) {
       </section>
 
       <section className="landing-bento">
-        <h2 className="bento-heading">What we're building against</h2>
+        <h2 className="bento-heading">Under the hood</h2>
         <div className="bento-grid">
           <div className="bento-card bento-wide spotlight" onMouseMove={handleSpotlight}>
-            <span className="bento-label">The call</span>
-            <p className="bento-quote">
-              "The stock market is open for building. One week to build
-              something innovative with stocks on Solana."
+            <span className="bento-label">The mechanism</span>
+            <p className="bento-body">
+              Deposit {UNDERLYING_TICKER}, get a DRIP receipt minted 1:1 by
+              the vault PDA. When <code>distribute_dividend</code> fires, the
+              program walks every holder and pays{" "}
+              <code>floor(total × balance / supply)</code> — the same
+              instruction, the same math, every time. No off-chain
+              calculation, no discretion.
             </p>
-            <span className="bento-sub">— @solana, opening STOCKLANA</span>
           </div>
 
           <div className="bento-card spotlight" onMouseMove={handleSpotlight}>
-            <span className="bento-label">Prize pool</span>
-            <span className="bento-big">$100,000</span>
-            <span className="bento-sub">one hackathon-wide pool</span>
+            <span className="bento-label">Zero custodian keys</span>
+            <p className="bento-body">
+              Vault, receipt mint, vault token account and dividend pool are
+              all PDAs, seeded and signed for by the program itself. No
+              wallet — not even the admin's — ever holds pooled funds.
+            </p>
           </div>
 
           <div className="bento-card spotlight" onMouseMove={handleSpotlight}>
-            <span className="bento-label">Deadline</span>
-            <span className="bento-big">Sept 18</span>
-            <span className="bento-sub">4:00pm ET · 20:00 UTC</span>
+            <span className="bento-label">Overflow-safe split</span>
+            <p className="bento-body">
+              Each holder's share is computed in <code>u128</code> before
+              narrowing back to <code>u64</code>, so the payout math can't
+              silently overflow even at large supply.
+            </p>
           </div>
 
           <div className="bento-card spotlight" onMouseMove={handleSpotlight}>
-            <span className="bento-label">Focus area</span>
-            <span className="bento-big">Credit & Yield</span>
-            <span className="bento-sub">dividends, structured products</span>
+            <span className="bento-label">Fan-out via remaining_accounts</span>
+            <p className="bento-body">
+              Holders are passed as <code>[receipt_ata, payout_ata]</code>{" "}
+              pairs through Anchor's <code>remaining_accounts</code> — one
+              instruction, any number of holders, no fixed struct.
+            </p>
           </div>
 
           <div className="bento-card bento-wide spotlight" onMouseMove={handleSpotlight}>
@@ -138,11 +150,13 @@ export function Landing({ onStart }: { onStart: () => void }) {
           </div>
 
           <div className="bento-card bento-wide spotlight" onMouseMove={handleSpotlight}>
-            <span className="bento-label">How it's judged</span>
-            <p className="bento-quote">
-              "Could this be a real app that people will actually use?" —
-              evaluated on a genuine problem, a working end-to-end demo, a
-              reason it belongs on Solana, and quality of execution.
+            <span className="bento-label">Composable, not a trap</span>
+            <p className="bento-body">
+              <code>withdraw</code> burns receipts and releases the
+              underlying 1:1, so a deposit is a real, reversible position.
+              Pointing the vault at the real xStocks/USDC mints on mainnet
+              is a config change to <code>deployment.json</code> — not a
+              program rewrite.
             </p>
           </div>
         </div>
