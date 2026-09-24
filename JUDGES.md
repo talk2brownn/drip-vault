@@ -1,6 +1,6 @@
 # DRIP — for the judges
 
-**Live app:** https://drip-vault-solana.netlify.app
+**Live app:** https://drip-vault-nine.vercel.app
 **Demo video:** [add link once recorded]
 **Cluster:** Solana devnet
 **Track:** Credit & Yield — STOCKLANA
@@ -36,7 +36,7 @@ Both the vault's live stats (total shares deposited, total dividends distributed
 ## Try it in under a minute
 
 You don't need a wallet to see it working:
-1. Open the [live app](https://drip-vault-solana.netlify.app) — the vault stats and activity ticker at the top are pulling real devnet state on load.
+1. Open the [live app](https://drip-vault-nine.vercel.app) — the vault stats and activity ticker at the top are pulling real devnet state on load.
 2. Click through to Solana Explorer from the "On-chain proof" card on the landing page to independently verify the program and vault exist and are live.
 
 The full deposit → corporate-action → payout flow requires a wallet holding devnet stand-in AAPLx and (for the corporate-action step specifically) the demo authority key, so the fastest way to see the whole loop end-to-end is the demo video linked at the top — it walks through a real deposit, a real dividend distribution, and the resulting Explorer-verifiable payout transaction.

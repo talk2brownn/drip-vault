@@ -2,7 +2,7 @@
 
 **Trustless dividend reinvestment for tokenized stocks on Solana.**
 
-Built for the [STOCKLANA hackathon](https://hackathons.solana.com/hackathons/stocklana) (Solana Foundation, Sept 11–18 2026, Credit & Yield track).
+Built for the [STOCKLANA hackathon](https://hackathons.solana.com/hackathons/stocklana) (Solana Foundation, Sept 11–25 2026, Credit & Yield track).
 
 Deposit a tokenized stock, get a DRIP receipt token 1:1. Holding the receipt is your claim on the next dividend. When a corporate action fires, one instruction pays every current receipt holder their exact pro-rata share, floor-divided, in a single transaction — no custodian, no manual calculation.
 
@@ -10,7 +10,7 @@ The demo replays Apple's actual declared dividend ($0.27/share, ex-date 2026-08-
 
 **→ For a fast overview of what this is and why, see [JUDGES.md](./JUDGES.md).**
 
-**Live app:** https://drip-vault-solana.netlify.app
+**Live app:** https://drip-vault-nine.vercel.app
 **Program (devnet):** [`H6nQUX5QaS9BwGo9aUhip1Vtrpzx9wx2d7Wwhjqw3nK2`](https://explorer.solana.com/address/H6nQUX5QaS9BwGo9aUhip1Vtrpzx9wx2d7Wwhjqw3nK2?cluster=devnet)
 
 ## Structure

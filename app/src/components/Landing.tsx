@@ -60,7 +60,7 @@ export function Landing({ onStart }: { onStart: () => void }) {
             target="_blank"
             rel="noreferrer"
           >
-            built for <strong>STOCKLANA</strong> — @solana, Sept 11–18 ↗
+            built for <strong>STOCKLANA</strong> — @solana, Sept 11–25 ↗
           </a>
           <h1>
             Dividends that <span className="grad">pay themselves</span>.
