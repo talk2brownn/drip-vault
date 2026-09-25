@@ -1,7 +1,7 @@
 # DRIP — for the judges
 
 **Live app:** https://drip-vault-nine.vercel.app
-**Demo video:** [add link once recorded]
+**Demo video:** https://x.com/Keepdabelieve/status/2103583832033149041?s=20
 **Cluster:** Solana devnet
 **Track:** Credit & Yield — STOCKLANA
 
